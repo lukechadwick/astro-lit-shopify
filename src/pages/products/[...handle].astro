@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import { getProductByHandle } from "../../utils/Shopify";
+
+const { handle } = Astro.params;
+const response = await getProductByHandle(handle);
+const product = response.product;
+
+if (!product) {
+  Astro.response.status = 404;
+}
+---
+
+<Layout title="Astro Store">
+  <Header />
+  <h1>Handle: {handle}</h1>
+  <h1>Title: {product.title}</h1>
+</Layout>

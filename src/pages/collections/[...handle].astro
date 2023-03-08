@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import { getCollectionByHandle } from "../../utils/Shopify";
+
+const { handle } = Astro.params;
+const response = await getCollectionByHandle(handle);
+const collection = response.collection;
+
+if (!collection) {
+  Astro.response.status = 404;
+}
+---
+
+<Layout title="Astro Store">
+  <Header />
+  <h1>Collection Handle: {handle}</h1>
+  <br />
+  <h1>Collection Title: {collection.title}</h1>
+  <br />
+  <h1>
+    Collection Products: {
+      collection.products.nodes.map((product) => (
+        <div>
+          <a class="underline" href={"/products/" + product.handle}>
+            {product.title}
+          </a>
+        </div>
+      ))
+    }
+  </h1>
+</Layout>
