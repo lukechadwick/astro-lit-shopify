@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import { getSearchResultsByTerm } from "../../utils/Shopify";
+
+const { searchParams } = Astro.url;
+const searchTerm = searchParams.get("search");
+
+const response = await getSearchResultsByTerm(searchTerm || undefined);
+const results = response.products;
+
+if (!results) {
+  Astro.response.status = 404;
+}
+---
+
+<Layout title="Astro Store">
+  <Header />
+  <h1>Search Term: {searchTerm}</h1>
+
+  <br />
+  <h1>Search Products:</h1>
+  {
+    results.edges.map((product) => (
+      <div>
+        <a class="underline" href={"/products/" + product.node.handle}>
+          {product.node.title}
+        </a>
+        <img
+          src={product.node.featuredImage.transformedSrc}
+          width="150px"
+          alt=""
+          srcset=""
+        />
+      </div>
+    ))
+  }
+</Layout>

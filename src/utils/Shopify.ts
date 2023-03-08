@@ -1,6 +1,11 @@
 let productQuery = `query getProductByHandle($handle: String) {
   product(handle: $handle) {
     title
+    description
+    featuredImage {
+      src
+      transformedSrc(maxHeight: 500, maxWidth: 500)
+    }
   }
 }`;
 
@@ -11,6 +16,26 @@ let collectionQuery = `query getCollectionByHandle($handle: String) {
       nodes {
         handle
         title
+        featuredImage {
+          src
+          transformedSrc(maxHeight: 200, maxWidth: 200)
+        }
+      }
+    }
+  }
+}`;
+
+let searchQuery = `query get($term: String) {
+  products(first: 20, query: $term) {
+    edges {
+      node {
+        title
+        handle
+        description
+        featuredImage {
+          src
+          transformedSrc(maxHeight: 200, maxWidth: 200)
+        }
       }
     }
   }
@@ -54,4 +79,8 @@ export const getProductByHandle = async (handle: string | undefined) => {
 
 export const getCollectionByHandle = async (handle: string | undefined) => {
   return await shopifyRequest(collectionQuery, { handle });
+};
+
+export const getSearchResultsByTerm = async (term: string | undefined) => {
+  return await shopifyRequest(searchQuery, { term });
 };
