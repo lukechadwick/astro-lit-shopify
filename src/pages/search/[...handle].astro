@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import { getSearchResultsByTerm } from "../../utils/Shopify";
+import ProductGrid from "../../components/ProductGrid.astro";
 
 const { searchParams } = Astro.url;
 const searchTerm = searchParams.get("search");
@@ -16,23 +17,8 @@ if (!results) {
 
 <Layout title="Astro Store">
   <Header />
-  <h1>Search Term: {searchTerm}</h1>
+  <h1 class="text-center text-4xl m-10">Search: {searchTerm}</h1>
 
-  <br />
-  <h1>Search Products:</h1>
-  {
-    results.edges.map((product) => (
-      <div>
-        <a class="underline" href={"/products/" + product.node.handle}>
-          {product.node.title}
-        </a>
-        <img
-          src={product.node.featuredImage.transformedSrc}
-          width="150px"
-          alt=""
-          srcset=""
-        />
-      </div>
-    ))
-  }
+  <ProductGrid products={results}></ProductGrid>
+
 </Layout>

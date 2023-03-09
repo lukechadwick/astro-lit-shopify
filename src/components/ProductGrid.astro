@@ -1,0 +1,27 @@
+---
+const { products } = Astro.props
+
+if (!products) {
+  Astro.response.status = 404;
+}
+---
+
+<div class="grid m-auto grid-cols-4 max-w-6xl auto-rows-fr gap-4 text-center">
+  {
+    products?.nodes.map((product) => (
+      <div>
+        <a class="underline" href={"/products/" + product.handle}>
+        <img
+          class="m-auto"
+          src={`${product.featuredImage?.transformedSrc}`}
+          height="150px"
+          width="auto"
+          alt=""
+          srcset=""
+        />
+          {product.title}
+        </a>
+      </div>
+    ))
+  }
+</div>

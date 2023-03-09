@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import { getCollectionByHandle } from "../../utils/Shopify";
+import ProductGrid from "../../components/ProductGrid.astro";
 
 const { handle } = Astro.params;
 const response = await getCollectionByHandle(handle);
@@ -10,32 +11,11 @@ const collection = response.collection;
 if (!collection) {
   Astro.response.status = 404;
 }
-
-console.log(collection);
 ---
 
 <Layout title="Astro Store">
   <Header />
-  <h1>Collection Handle: {collection?.handle}</h1>
-  <br />
-  <h1>Collection Title: {collection?.title}</h1>
-  <br />
-  <h1>Collection Products:</h1>
-  <div class="flex m-auto max-w-6xl">
-    {
-      collection?.products.nodes.map((product) => (
-        <div>
-          <a class="underline" href={"/products/" + product.handle}>
-            {product.title}
-          </a>
-          <img
-            src={`${product.featuredImage?.transformedSrc}`}
-            width="150px"
-            alt=""
-            srcset=""
-          />
-        </div>
-      ))
-    }
-  </div>
+  <h1 class="text-center text-4xl m-10">{collection?.title}</h1>
+
+  <ProductGrid products={collection?.products}></ProductGrid>
 </Layout>

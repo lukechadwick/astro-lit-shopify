@@ -12,7 +12,7 @@ let productQuery = `query getProductByHandle($handle: String) {
 let collectionQuery = `query getCollectionByHandle($handle: String) {
   collection(handle: $handle) {
     title
-    products(first: 10) {
+    products(first: 20) {
       nodes {
         handle
         title
@@ -27,15 +27,13 @@ let collectionQuery = `query getCollectionByHandle($handle: String) {
 
 let searchQuery = `query get($term: String) {
   products(first: 20, query: $term) {
-    edges {
-      node {
-        title
-        handle
-        description
-        featuredImage {
-          src
-          transformedSrc(maxHeight: 200, maxWidth: 200)
-        }
+    nodes {
+      title
+      handle
+      description
+      featuredImage {
+        src
+        transformedSrc(maxHeight: 200, maxWidth: 200)
       }
     }
   }
@@ -43,7 +41,7 @@ let searchQuery = `query get($term: String) {
 
 const shopifyRequest = async (query: string, options: any) => {
   const response = await fetch(
-    `https://${import.meta.env.MYSHOPIFY_URL}/api/2023-01/graphql.json`,
+    `https://${import.meta.env.PUBLIC_MYSHOPIFY_URL}/api/2023-01/graphql.json`,
     {
       method: "POST",
       headers: {
