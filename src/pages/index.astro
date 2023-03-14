@@ -1,11 +1,21 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Astro Store">
-	<Header/>
-	<div>
-		<img src="/cart.jpg" alt="" srcset="">
-	</div>
+  <!-- Hero -->
+  <div class="md:relative text-center md:text-left">
+    <img class="w-full" src="/cart.jpg" alt="" srcset="" />
+    <div class="top-2/4 md:absolute md:pl-5 md:-translate-y-1/2 md:max-w-[50%]">
+      <h1 class="text-4xl mb-4">Empty cart?</h1>
+      <div class="text-xl">
+        As you browse our store, simply click on the items you want to purchase
+        and add them to your shopping cart.
+      </div>
+      <a
+        href="/collections/all"
+        class="rounded inline-block bg-black text-white p-4 mt-2">Fill it up</a
+      >
+    </div>
+  </div>
 </Layout>

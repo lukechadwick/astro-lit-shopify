@@ -1,5 +1,22 @@
 let productQuery = `query getProductByHandle($handle: String) {
   product(handle: $handle) {
+    variants(first: 20) {
+      nodes {
+        compareAtPriceV2 {
+          amount
+          currencyCode
+        }
+        priceV2 {
+          currencyCode
+          amount
+        }
+        title
+        selectedOptions {
+          name
+          value
+        }
+      }
+    }
     title
     description
     featuredImage {
@@ -12,6 +29,7 @@ let productQuery = `query getProductByHandle($handle: String) {
 let collectionQuery = `query getCollectionByHandle($handle: String) {
   collection(handle: $handle) {
     title
+    description
     products(first: 20) {
       nodes {
         handle
@@ -38,6 +56,26 @@ let searchQuery = `query get($term: String) {
     }
   }
 }`;
+
+let footerQuery = `
+  query getFooterMenu($handle: String!) {
+    menu(handle: $handle) {
+      items {
+        title
+        url
+        items {
+          title
+          url
+          items {
+            title
+            url
+          }
+        }
+      }
+      title
+    }
+  }
+`;
 
 const shopifyRequest = async (query: string, options: any) => {
   const response = await fetch(
@@ -81,4 +119,8 @@ export const getCollectionByHandle = async (handle: string | undefined) => {
 
 export const getSearchResultsByTerm = async (term: string | undefined) => {
   return await shopifyRequest(searchQuery, { term });
+};
+
+export const getFooterMenu = async (handle: string | undefined) => {
+  return await shopifyRequest(footerQuery, { handle });
 };

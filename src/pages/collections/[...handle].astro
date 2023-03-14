@@ -10,12 +10,15 @@ const collection = response.collection;
 
 if (!collection) {
   Astro.response.status = 404;
+  Astro.redirect("/404");
 }
 ---
 
 <Layout title="Astro Store">
-  <Header />
   <h1 class="text-center text-4xl m-10">{collection?.title}</h1>
+  <h1 class="text-center text-l max-w-3xl m-auto mb-10">
+    {collection?.description}
+  </h1>
 
-  <ProductGrid products={collection?.products}></ProductGrid>
+  <ProductGrid products={collection?.products} />
 </Layout>

@@ -16,9 +16,8 @@ if (!results) {
 ---
 
 <Layout title="Astro Store">
-  <Header />
-  <h1 class="text-center text-4xl m-10">Search: {searchTerm}</h1>
-
-  <ProductGrid products={results}></ProductGrid>
-
+  <h1 class="text-center text-2xl m-10">
+    Showing results for: {searchTerm} ({results?.nodes.length})
+  </h1>
+  <ProductGrid products={results} />
 </Layout>
