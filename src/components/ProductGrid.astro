@@ -1,25 +1,30 @@
 ---
-const { products } = Astro.props
+const { products } = Astro.props;
+import type { Product } from "../types/Shopify";
+import Reviews from "./Reviews.astro";
 
 if (!products) {
   Astro.response.status = 404;
 }
 ---
 
-<div class="grid m-auto grid-cols-4 max-w-6xl auto-rows-fr gap-4 text-center">
+<div
+  class="grid m-auto grid-cols-2 md:grid-cols-4 max-w-6xl auto-rows-fr gap-4 text-center"
+>
   {
-    products?.nodes.map((product) => (
+    products?.nodes.map((product: Product) => (
       <div>
         <a class="underline" href={"/products/" + product.handle}>
-        <img
-          class="m-auto"
-          src={`${product.featuredImage?.transformedSrc}`}
-          height="150px"
-          width="auto"
-          alt=""
-          srcset=""
-        />
+          <img
+            class="m-auto max-h-60 w-auto min-h-[200px] object-scale-down"
+            src={`${product.featuredImage?.transformedSrc}`}
+            height="150px"
+            width="100%"
+            alt=""
+            srcset=""
+          />
           {product.title}
+          <Reviews />
         </a>
       </div>
     ))

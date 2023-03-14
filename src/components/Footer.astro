@@ -1,0 +1,36 @@
+---
+import { getFooterMenu } from "../utils/Shopify";
+
+const response = await getFooterMenu("footer");
+const menu = response.menu;
+
+if (!response) {
+  Astro.response.status = 404;
+}
+---
+
+<div class="grid grid-cols-1 md:grid-cols-3 m-auto max-w-[90%] bg-gray-200 p-5">
+  {
+    menu?.items.map((link) => (
+      <div class="justify-self-center">
+        <a class="underline font-bold" href={link.url}>
+          {link.title}
+        </a>
+        {link.items?.map((child) => (
+          <div class="justify-self-center">
+            <a class="underline ml-2" href={child.url}>
+              {child.title}
+            </a>
+            {child.items?.map((grandchild) => (
+              <div class="justify-self-center">
+                <a class="underline ml-4" href={grandchild.url}>
+                  {grandchild.title}
+                </a>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    ))
+  }
+</div>

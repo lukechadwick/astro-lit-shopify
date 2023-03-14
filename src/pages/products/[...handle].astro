@@ -2,10 +2,12 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import { getProductByHandle } from "../../utils/Shopify";
+import Reviews from "../../components/Reviews.astro";
+import type { Product } from "../../types/Shopify";
 
 const { handle } = Astro.params;
 const response = await getProductByHandle(handle);
-const product = response.product;
+const product: Product = response.product;
 
 if (!product) {
   Astro.response.status = 404;
@@ -13,16 +15,27 @@ if (!product) {
 ---
 
 <Layout title="Astro Store">
-  <Header />
-  <div class="max-w-2xl m-auto mt-4">
-    <h1 class="font-bold">Title: {product.title}</h1>
-    <br />
-    <p>{product.description}</p>
-    <img
-      src={product.featuredImage.transformedSrc}
-      width="300px"
-      alt=""
-      srcset=""
-    />
+  <div class="max-w-4xl m-auto mt-4 grid grid-cols-1 md:grid-cols-2">
+    <div class="">
+      <img
+        src={product.featuredImage.transformedSrc}
+        width="300px"
+        alt=""
+        srcset=""
+      />
+    </div>
+    <div>
+      <h1 class="font-bold">Title: {product.title}</h1>
+      <Reviews />
+      <br />
+      <p>{product.description}</p>
+      <br />
+      <vars>
+        <h1>Variants:</h1>
+        <ul>
+          {product.variants.nodes.map((item) => <li>{item.title}</li>)}
+        </ul>
+      </vars>
+    </div>
   </div>
 </Layout>
