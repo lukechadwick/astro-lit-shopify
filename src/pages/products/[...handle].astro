@@ -33,7 +33,13 @@ if (!product) {
       <vars>
         <h1>Variants:</h1>
         <ul>
-          {product.variants.nodes.map((item) => <li>{item.title}</li>)}
+          {
+            product.variants.nodes.map((item) => (
+              <li>
+                {item.title} - {item.id}
+              </li>
+            ))
+          }
         </ul>
       </vars>
     </div>

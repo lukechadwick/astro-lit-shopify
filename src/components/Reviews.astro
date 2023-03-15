@@ -1,9 +1,10 @@
 ---
 const reviews = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
 const rating = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+const { variant } = Astro.props;
 ---
 
-<div class="flex mt-1">
+<div class={`flex mt-1 ${variant == "collection" && "justify-center"}`}>
   <span class="flex items-center">
     <svg
       aria-hidden="true"
@@ -66,5 +67,7 @@ const rating = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
       ></path></svg
     >
   </span>
-  <span class="ml-2">{reviews} reviews</span>
+  <span class={`ml-2 ${variant == "collection" && "hidden"}`}
+    >{reviews} reviews</span
+  >
 </div>

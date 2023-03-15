@@ -1,7 +1,8 @@
-let productQuery = `query getProductByHandle($handle: String) {
+const productQuery = `query getProductByHandle($handle: String) {
   product(handle: $handle) {
     variants(first: 20) {
       nodes {
+        id
         compareAtPriceV2 {
           amount
           currencyCode
@@ -26,7 +27,7 @@ let productQuery = `query getProductByHandle($handle: String) {
   }
 }`;
 
-let collectionQuery = `query getCollectionByHandle($handle: String) {
+const collectionQuery = `query getCollectionByHandle($handle: String) {
   collection(handle: $handle) {
     title
     description
@@ -38,12 +39,22 @@ let collectionQuery = `query getCollectionByHandle($handle: String) {
           src
           transformedSrc(maxHeight: 200, maxWidth: 200)
         }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+        }
       }
     }
   }
 }`;
 
-let searchQuery = `query get($term: String) {
+const searchQuery = `query get($term: String) {
   products(first: 20, query: $term) {
     nodes {
       title
@@ -53,11 +64,21 @@ let searchQuery = `query get($term: String) {
         src
         transformedSrc(maxHeight: 200, maxWidth: 200)
       }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
     }
   }
 }`;
 
-let footerQuery = `
+const footerQuery = `
   query getFooterMenu($handle: String!) {
     menu(handle: $handle) {
       items {

@@ -14,7 +14,7 @@ if (!products) {
   {
     products?.nodes.map((product: Product) => (
       <div>
-        <a class="underline" href={"/products/" + product.handle}>
+        <a class="hover:underline" href={"/products/" + product.handle}>
           <img
             class="m-auto max-h-60 w-auto min-h-[200px] object-scale-down"
             src={`${product.featuredImage?.transformedSrc}`}
@@ -24,7 +24,18 @@ if (!products) {
             srcset=""
           />
           {product.title}
-          <Reviews />
+          <Reviews variant="collection" />
+          <div>
+            {product.priceRange?.minVariantPrice.amount !=
+            product.priceRange?.maxVariantPrice.amount ? (
+              <div>
+                {product.priceRange?.minVariantPrice.amount} -
+                {product.priceRange?.maxVariantPrice.amount}
+              </div>
+            ) : (
+              <div>${product.priceRange?.minVariantPrice.amount}</div>
+            )}
+          </div>
         </a>
       </div>
     ))
